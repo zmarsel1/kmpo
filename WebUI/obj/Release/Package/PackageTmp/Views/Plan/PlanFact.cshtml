@@ -1,0 +1,13 @@
+﻿@model WebUI.Models.DocumentHead
+@{
+    ViewBag.Title = "План - Факт";
+    Html.Assets().Styles.Add(Url.Content("/Telerik.ReportViewer.axd?name=Skins.Default.ReportViewer.css&amp;version=6.1.12.823&amp;optype=Resource"));
+    Html.Assets().Styles.Add(Url.Content("/Telerik.ReportViewer.axd?name=Resources.ParametersArea.css&amp;version=6.1.12.823&amp;optype=Resource"));
+    Html.Assets().Styles.Add(Url.Content("/Telerik.ReportViewer.axd?name=Resources.ReportViewerInternal.css&amp;version=6.1.12.823&amp;optype=Resource"));
+    Html.Assets().Styles.Add(Url.Content("~/Content/reports.css"));
+    
+    }
+
+<div class="content">
+    @Html.Partial("PrintPlanFact", Model)
+</div>

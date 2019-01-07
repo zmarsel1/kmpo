@@ -1,0 +1,10 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\Import.exe.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\Import.exe
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\Import.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\EntityFramework.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\bin\Release\EntityFramework.xml
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\obj\x86\Release\Import.csprojResolveAssemblyReference.cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\obj\x86\Release\Import.exe
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Import\obj\x86\Release\Import.pdb

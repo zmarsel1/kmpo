@@ -1,0 +1,6 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\bin\Debug\TagDBContext.dll.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\bin\Debug\TagDBContext.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\bin\Debug\TagDBContext.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\obj\Debug\TagDBContext.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\obj\Debug\TagDBContext.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\TagDBContext\obj\Debug\TagDBContext.csprojResolveAssemblyReference.cache

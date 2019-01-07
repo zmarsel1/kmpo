@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TagDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TagDBModelStoreContainer">
+          <EntitySet Name="Comments" EntityType="TagDBModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Groups" EntityType="TagDBModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Params" EntityType="TagDBModel.Store.Params" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TagGroups" EntityType="TagDBModel.Store.TagGroups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tags" EntityType="TagDBModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TagValues" EntityType="TagDBModel.Store.TagValues" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_dbo_Comments_dbo_TagValues_TagKey" Association="TagDBModel.Store.FK_dbo_Comments_dbo_TagValues_TagKey">
+            <End Role="TagValues" EntitySet="TagValues" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TagGroups_dbo_Groups_GroupID" Association="TagDBModel.Store.FK_dbo_TagGroups_dbo_Groups_GroupID">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="TagGroups" EntitySet="TagGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TagGroups_dbo_Tags_TagID" Association="TagDBModel.Store.FK_dbo_TagGroups_dbo_Tags_TagID">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="TagGroups" EntitySet="TagGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Tags_dbo_Params_ParamTag" Association="TagDBModel.Store.FK_dbo_Tags_dbo_Params_ParamTag">
+            <End Role="Params" EntitySet="Params" />
+            <End Role="Tags" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TagValues_dbo_Tags_TagID" Association="TagDBModel.Store.FK_dbo_TagValues_dbo_Tags_TagID">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="TagValues" EntitySet="TagValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Groups" Association="TagDBModel.Store.FK_Groups_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Groups1" EntitySet="Groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Author" Type="nvarchar(max)" />
+          <Property Name="Posted" Type="datetime" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="TagKey" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ParentID" Type="int" />
+        </EntityType>
+        <EntityType Name="Params">
+          <Key>
+            <PropertyRef Name="ParamTag" />
+          </Key>
+          <Property Name="ParamTag" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Measure" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TagGroups">
+          <Key>
+            <PropertyRef Name="TagID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="TagID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TagName" Type="nvarchar(max)" />
+          <Property Name="ParamTag" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TagValues">
+          <Key>
+            <PropertyRef Name="TagKey" />
+          </Key>
+          <Property Name="TagKey" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TagID" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="Value" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Comments_dbo_TagValues_TagKey">
+          <End Role="TagValues" Type="TagDBModel.Store.TagValues" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comments" Type="TagDBModel.Store.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TagValues">
+              <PropertyRef Name="TagKey" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="TagKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TagGroups_dbo_Groups_GroupID">
+          <End Role="Groups" Type="TagDBModel.Store.Groups" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TagGroups" Type="TagDBModel.Store.TagGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="TagGroups">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TagGroups_dbo_Tags_TagID">
+          <End Role="Tags" Type="TagDBModel.Store.Tags" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TagGroups" Type="TagDBModel.Store.TagGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="TagID" />
+            </Principal>
+            <Dependent Role="TagGroups">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Tags_dbo_Params_ParamTag">
+          <End Role="Params" Type="TagDBModel.Store.Params" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tags" Type="TagDBModel.Store.Tags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Params">
+              <PropertyRef Name="ParamTag" />
+            </Principal>
+            <Dependent Role="Tags">
+              <PropertyRef Name="ParamTag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TagValues_dbo_Tags_TagID">
+          <End Role="Tags" Type="TagDBModel.Store.Tags" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TagValues" Type="TagDBModel.Store.TagValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="TagID" />
+            </Principal>
+            <Dependent Role="TagValues">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Groups">
+          <End Role="Groups" Type="TagDBModel.Store.Groups" Multiplicity="0..1" />
+          <End Role="Groups1" Type="TagDBModel.Store.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Groups1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TagDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TagDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comments" EntityType="TagDBModel.Comment" />
+          <EntitySet Name="Groups" EntityType="TagDBModel.Group" />
+          <EntitySet Name="Params" EntityType="TagDBModel.Param" />
+          <EntitySet Name="Tags" EntityType="TagDBModel.Tag" />
+          <EntitySet Name="TagValues" EntityType="TagDBModel.TagValue" />
+          <AssociationSet Name="FK_dbo_Comments_dbo_TagValues_TagKey" Association="TagDBModel.FK_dbo_Comments_dbo_TagValues_TagKey">
+            <End Role="TagValues" EntitySet="TagValues" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Groups" Association="TagDBModel.FK_Groups_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Groups1" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Tags_dbo_Params_ParamTag" Association="TagDBModel.FK_dbo_Tags_dbo_Params_ParamTag">
+            <End Role="Params" EntitySet="Params" />
+            <End Role="Tags" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TagValues_dbo_Tags_TagID" Association="TagDBModel.FK_dbo_TagValues_dbo_Tags_TagID">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="TagValues" EntitySet="TagValues" />
+          </AssociationSet>
+          <AssociationSet Name="TagGroups" Association="TagDBModel.TagGroups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Tags" EntitySet="Tags" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Author" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Posted" Type="DateTime" />
+          <Property Name="Text" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="TagKey" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TagValue" Relationship="TagDBModel.FK_dbo_Comments_dbo_TagValues_TagKey" FromRole="Comments" ToRole="TagValues" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ParentID" Type="Int32" />
+          <NavigationProperty Name="Groups1" Relationship="TagDBModel.FK_Groups_Groups" FromRole="Groups" ToRole="Groups1" />
+          <NavigationProperty Name="Group1" Relationship="TagDBModel.FK_Groups_Groups" FromRole="Groups1" ToRole="Groups" />
+          <NavigationProperty Name="Tags" Relationship="TagDBModel.TagGroups" FromRole="Groups" ToRole="Tags" />
+        </EntityType>
+        <EntityType Name="Param">
+          <Key>
+            <PropertyRef Name="ParamTag" />
+          </Key>
+          <Property Name="ParamTag" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Measure" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tags" Relationship="TagDBModel.FK_dbo_Tags_dbo_Params_ParamTag" FromRole="Params" ToRole="Tags" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ParamTag" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Param" Relationship="TagDBModel.FK_dbo_Tags_dbo_Params_ParamTag" FromRole="Tags" ToRole="Params" />
+          <NavigationProperty Name="TagValues" Relationship="TagDBModel.FK_dbo_TagValues_dbo_Tags_TagID" FromRole="Tags" ToRole="TagValues" />
+          <NavigationProperty Name="Groups" Relationship="TagDBModel.TagGroups" FromRole="Tags" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="TagValue">
+          <Key>
+            <PropertyRef Name="TagKey" />
+          </Key>
+          <Property Name="TagKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagID" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="Value" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="TagDBModel.FK_dbo_Comments_dbo_TagValues_TagKey" FromRole="TagValues" ToRole="Comments" />
+          <NavigationProperty Name="Tag" Relationship="TagDBModel.FK_dbo_TagValues_dbo_Tags_TagID" FromRole="TagValues" ToRole="Tags" />
+        </EntityType>
+        <Association Name="FK_dbo_Comments_dbo_TagValues_TagKey">
+          <End Role="TagValues" Type="TagDBModel.TagValue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comments" Type="TagDBModel.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TagValues">
+              <PropertyRef Name="TagKey" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="TagKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Groups">
+          <End Role="Groups" Type="TagDBModel.Group" Multiplicity="0..1" />
+          <End Role="Groups1" Type="TagDBModel.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Groups1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Tags_dbo_Params_ParamTag">
+          <End Role="Params" Type="TagDBModel.Param" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tags" Type="TagDBModel.Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Params">
+              <PropertyRef Name="ParamTag" />
+            </Principal>
+            <Dependent Role="Tags">
+              <PropertyRef Name="ParamTag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TagValues_dbo_Tags_TagID">
+          <End Role="Tags" Type="TagDBModel.Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TagValues" Type="TagDBModel.TagValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="TagID" />
+            </Principal>
+            <Dependent Role="TagValues">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TagGroups">
+          <End Role="Groups" Type="TagDBModel.Group" Multiplicity="*" />
+          <End Role="Tags" Type="TagDBModel.Tag" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TagDBModelStoreContainer" CdmEntityContainer="TagDBEntities">
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="TagDBModel.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Posted" ColumnName="Posted" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="TagKey" ColumnName="TagKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="TagDBModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Params">
+            <EntityTypeMapping TypeName="TagDBModel.Param">
+              <MappingFragment StoreEntitySet="Params">
+                <ScalarProperty Name="ParamTag" ColumnName="ParamTag" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Measure" ColumnName="Measure" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="TagDBModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="ParamTag" ColumnName="ParamTag" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TagValues">
+            <EntityTypeMapping TypeName="TagDBModel.TagValue">
+              <MappingFragment StoreEntitySet="TagValues">
+                <ScalarProperty Name="TagKey" ColumnName="TagKey" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TagGroups" TypeName="TagDBModel.TagGroups" StoreEntitySet="TagGroups">
+            <EndProperty Name="Groups">
+              <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+            </EndProperty>
+            <EndProperty Name="Tags">
+              <ScalarProperty Name="TagID" ColumnName="TagID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TagDBContext">
+        <EntityTypeShape EntityType="TagDBModel.Comment" Width="1.5" PointX="7.5" PointY="1" Height="1.94363278567791" IsExpanded="true" />
+        <EntityTypeShape EntityType="TagDBModel.Group" Width="1.5" PointX="0.75" PointY="3.875" Height="2.110494761864345" IsExpanded="true" />
+        <EntityTypeShape EntityType="TagDBModel.Param" Width="1.5" PointX="0.75" PointY="1.125" Height="1.7767708094914756" IsExpanded="true" />
+        <EntityTypeShape EntityType="TagDBModel.Tag" Width="1.5" PointX="3" PointY="0.875" Height="2.1104947618643433" IsExpanded="true" />
+        <EntityTypeShape EntityType="TagDBModel.TagValue" Width="1.5" PointX="5.25" PointY="1" Height="1.9436327856779094" IsExpanded="true" />
+        <AssociationConnector Association="TagDBModel.FK_dbo_Comments_dbo_TagValues_TagKey" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="1.9718163928389547" />
+          <ConnectorPoint PointX="7.5" PointY="1.9718163928389547" />
+        </AssociationConnector>
+        <AssociationConnector Association="TagDBModel.FK_Groups_Groups" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.2819230769230767" PointY="5.985494761864345" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="6.235494761864345" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="6.235494761864345" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="5.985494761864345" />
+        </AssociationConnector>
+        <AssociationConnector Association="TagDBModel.FK_dbo_Tags_dbo_Params_ParamTag" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.0133854047457378" />
+          <ConnectorPoint PointX="3" PointY="2.0133854047457378" />
+        </AssociationConnector>
+        <AssociationConnector Association="TagDBModel.FK_dbo_TagValues_dbo_Tags_TagID" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.9718163928389547" />
+          <ConnectorPoint PointX="5.25" PointY="1.9718163928389547" />
+        </AssociationConnector>
+        <AssociationConnector Association="TagDBModel.TagGroups" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.9302473809321725" />
+          <ConnectorPoint PointX="3.75" PointY="4.9302473809321725" />
+          <ConnectorPoint PointX="3.75" PointY="2.9854947618643433" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

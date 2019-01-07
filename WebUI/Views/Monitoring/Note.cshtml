@@ -1,0 +1,77 @@
+﻿@model WebUI.Models.NoteViewModel
+@{
+    ViewBag.Title = "Принятые меры";
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.unobtrusive-ajax.min.js"));
+}
+<div class="content">
+<h2>Принятые меры</h2>
+<script type="text/javascript">
+    $(document).ready( function(){
+        $.ajaxSetup ({ cache:false });
+    });
+</script>
+@using (Html.BeginForm("Note", "Monitoring", FormMethod.Get, new { @class="form-search"}))
+{
+    <label>Передел:</label>
+    <div class="input-prepend">
+      <span class="add-on"><i class="icon-cog"></i></span>
+    @Html.DropDownList("GroupID", new SelectList(Model.Groups, "GroupID", "Name", Model.Group.GroupID), new { @class = "input-medium", style="width:375px;"})
+    </div>
+    <label>Дата:</label>
+    <div class="input-prepend">
+      <span class="add-on"><i class="icon-calendar"></i></span>
+      @Html.Editor("date")
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Поиск" />
+}
+<div class="row">
+  <div class="span9">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th style="vertical-align:middle;text-align:center;">Дата</th>
+          <th width="50px" style="vertical-align:middle;text-align:center;">Оптимальное значение</th>
+          <th width="50px" style="vertical-align:middle;text-align:center;">Фактическое значение</th>
+          <th width="50px" style="vertical-align:middle;text-align:center;">Абсолютное отклонение</th>
+          <th width="50px" style="vertical-align:middle;text-align:center;">Отностительное отклонение</th>
+          <th></th>
+        </tr>
+      </thead>
+    <tbody>
+@{
+    foreach(var record in Model.Data)
+    {
+        string rowcolor = "";
+        if (record.AbsDeviation < 0 && Math.Abs(record.RelDeviation) > 5 )
+        {
+            rowcolor = "class = \"error\"";
+        }
+        /*else if (record.AbsDeviation > 0 && record.RelDeviation > 5)
+        {
+            rowcolor = "class = \"success\"";
+        }*/
+        var btnid = String.Format("btn{0}", record.Date.Hour);
+        <tr @Html.Raw(rowcolor)>
+          <td>@record.Date.ToString("dd.MM.yyyy HH:mm")</td>
+          <td style="text-align:right;"> @record.OptimalValue.ToString("0.##")</td>
+          <td style="text-align:right;"> @record.FactValue.ToString("0.##")</td>
+          <td style="text-align:right;"> @record.AbsDeviation.ToString("0.##")</td>
+          <td style="text-align:right;"> @record.RelDeviation.ToString("0.##")</td>
+          <td style="text-align:center;">
+          
+            @Ajax.ActionLink("коментарии", "Comments", "Monitoring",
+                            new {tagKey = @record.TagKey, rnd = btnid },
+                            new AjaxOptions() { HttpMethod= "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "comments-field" },
+                            new { @class = "btn btn-small" })
+          </td>
+        </tr>   
+    }
+ }
+      </tbody>
+    </table>
+  </div>
+  <div id="comments-field" class="span5">
+  </div>
+</div>
+</div>

@@ -1,0 +1,142 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DAL.Abstract;
+using DAL.Entities;
+
+namespace DAL.Concrete
+{
+    public class DemoRepository : IRepository
+    {
+        List<Param> _params = new List<Param>()
+        {
+            new Param(){ Name="Энергия", Description = "Энергия на единицу продукции", ParamTag = "ENERGY", Measure=@"кВт.ч/т"},
+            new Param(){ Name="Электроэнергия", Description = "Электроэнергия на единицу продукции", ParamTag ="ELECTROENERGY", Measure=@"кВт*ч/т"},
+            new Param(){ Name="Пар", Description = "Пар на единицу продукции", ParamTag ="HEATENERRGY", Measure=@"т/т"},
+            new Param(){ Name="ГОВ", Description = "ГОВ на единицу продукции", ParamTag ="SALTLESSWATER", Measure=@"test4"},
+            new Param(){ Name="Оборотна вода-2", Description = "Оборотна вода-2 на единицу продукции", ParamTag ="COOLINGWATER", Measure=@"т/т"},
+
+            new Param(){ Name="Энергия", Description = "Энергия на единицу продукции(Факт)", ParamTag = "ENERGY_FACT", Measure=@"кВт*ч/т"},
+            new Param(){ Name="Электроэнергия", Description = "Электроэнергия на единицу продукции(Факт)", ParamTag ="ELECTROENERGY_FACT", Measure=@"кВт*ч/т"},
+            new Param(){ Name="Пар", Description = "Пар на единицу продукции(Факт)", ParamTag ="HEATENERRGY_FACT", Measure=@"т/т"},
+            new Param(){ Name="ГОВ", Description = "ГОВ на единицу продукции", ParamTag ="SALTLESSWATER_FACT(Факт)", Measure=@"т/т"},
+            new Param(){ Name="Оборотна вода", Description = "Оборотна вода на единицу продукции(Факт)", ParamTag ="COOLINGWATER_FACT", Measure=@"т/т"}
+        };
+
+        List<Group> _groups;
+        List<Tag> _tags = new List<Tag>();
+
+        public DemoRepository()
+        {
+            var tags1 = new List<Tag>()
+            {
+                new Tag(){ TagName = "tag1_LIMIT", ParamTag = "ENERGY", Param = _params[1], Description = "Лимит" },
+                new Tag(){ TagName = "tag1_PLAN", ParamTag = "ENERGY", Param = _params[1], Description = "План" },
+                new Tag(){ TagName = "tag1_FACT", ParamTag = "ENERGY", Param = _params[1], Description = "Факт" },
+                new Tag(){ TagName = "tag1_NORM", ParamTag = "ENERGY", Param = _params[1], Description = "Норма" },
+            };
+
+            var tags2 = new List<Tag>()
+            {
+                new Tag(){ TagName = "tag2_LIMIT", ParamTag = "ENERGY", Param = _params[1], Description = "Лимит" },
+                new Tag(){ TagName = "tag2_FACT", ParamTag = "ENERGY", Param = _params[1], Description = "Факт" },
+                new Tag(){ TagName = "tag2_NORM", ParamTag = "ENERGY", Param = _params[1], Description = "Норма" },
+            };
+
+            var tags3 = new List<Tag>()
+            {
+                new Tag(){ TagName = "tag3_LIMIT", ParamTag = "ENERGY", Param = _params[1], Description = "Лимит" },
+                new Tag(){ TagName = "tag3_PLAN", ParamTag = "ENERGY", Param = _params[1], Description = "План" },
+                new Tag(){ TagName = "tag3_FACT", ParamTag = "ENERGY", Param = _params[1], Description = "Факт" },
+                new Tag(){ TagName = "tag3_NORM", ParamTag = "ENERGY", Param = _params[1], Description = "Норма" },
+            };
+
+            _tags.AddRange(tags1);
+            _tags.AddRange(tags2);
+            _tags.AddRange(tags3);
+
+            _groups = new List<Group>()
+            {
+                new Group(){ GroupID = 1, Name = "Основные потоки ТЭР" },
+                new Group(){ GroupID = 2, Name = "Второстепенные потоки ТЭР" },
+                new Group(){ GroupID = 3, Name = "Электроэнергия", ParentID = 1, Tags = tags1 },
+                new Group(){ GroupID = 9, Name = "Электроэнергия на передел №2", ParentID = 2, Tags = tags3 }
+            };
+
+        }
+
+        public IEnumerable<TagValue> GetTagValue(string tagName, DateTime start, DateTime end)
+        {
+            int index = tagName.EndsWith("_FACT") ? 1 : tagName.EndsWith("_LIMIT") ? 2 : 3;
+            bool isfact = tagName.EndsWith("_FACT");
+            Random random = new Random(DateTime.Today.Day + index);
+            double limitplan = tagName.EndsWith("_LIMIT") ? 7.5 : 10 ;
+
+            Tag tag = _tags.Where(t => t.TagName == tagName).First();
+            TimeSpan span = new TimeSpan(1,0,0);
+            List<TagValue> data = new List<TagValue>();
+
+            int factcount = (DateTime.Now.Hour * 24 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second) / 10 % 24;
+            int counter = 0;
+            //start = start.Add(span);
+            while (start <= end)
+            {
+                TagValue value = null;
+                if (isfact)
+                {
+                    if (counter == factcount) break;
+                    value = new TagValue() { DateTime = start, Tag = tag, Value = 6.5 + random.Next(2) + random.NextDouble() };
+                    counter++;
+                }
+                else
+                {
+                    value = new TagValue() { DateTime = start, Tag = tag, Value = limitplan };
+                }
+                data.Add(value);
+                start = start.Add(span);
+            }
+            return data;
+        }
+
+        public IEnumerable<TagValue> GetTagValue(int tagID, DateTime start, DateTime end)
+        {
+            Tag tag = _tags.Where(t => t.TagID == tagID).First();
+            return GetTagValue(tag.TagName, start, end);
+        }
+        public IEnumerable<Param> GetParams()
+        {
+            return _params.AsEnumerable();
+        }
+
+        public IEnumerable<Group> GetGroups()
+        {
+            return _groups.AsEnumerable();
+        }
+
+        public IEnumerable<Comment> GetComments(int tagKey)
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            var comments = new List<Comment>(){
+                new Comment(){ Author="Автор1", Text="Текст1"+rnd.Next().ToString(), Posted = DateTime.Today},
+                new Comment(){ Author="Автор1", Text="Текст1"+rnd.Next().ToString(), Posted = DateTime.Today},
+                new Comment(){ Author="Автор1", Text="Текст1"+rnd.Next().ToString(), Posted = DateTime.Today}
+            }; 
+            return comments;
+        }
+
+        public void AddComment(int tagKey, string author, string text)
+        {
+            return;
+        }
+
+        public void AddTagValue(int tagID, DateTime date, double value)
+        {
+            //throw new NotImplementedException();
+        }
+        public void AddTagValue(int tagKey, double value)
+        {
+            //throw new NotImplementedException();
+        }
+    }
+}

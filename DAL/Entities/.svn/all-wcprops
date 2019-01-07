@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities
+END
+Tag.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities/Tag.cs
+END
+Group.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities/Group.cs
+END
+Param.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities/Param.cs
+END
+Comment.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities/Comment.cs
+END
+TagValue.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/energy/!svn/ver/31/etilen/Etilen/DAL/Entities/TagValue.cs
+END

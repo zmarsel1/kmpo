@@ -1,0 +1,14 @@
+﻿@model IEnumerable<DAL.Entities.Comment>
+<h4>Комментарии</h4>
+<hr />
+@foreach (var comment in Model)
+{
+    <p>
+        @comment.Text
+    </p>
+    <p>
+     <i class="icon-user"></i> @comment.Author
+     | <i class="icon-calendar"></i> @comment.Posted
+    </p>
+    <hr />
+}

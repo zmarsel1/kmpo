@@ -1,0 +1,20 @@
+﻿@model WebUI.Models.CommentsViewModel
+@{
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.unobtrusive-ajax.min.js"));
+}
+ <div id="comments">
+   @Html.Partial("CommentsPartial", Model.Comments)
+ </div>
+  @using (Ajax.BeginForm("AddComment", "Monitoring", new AjaxOptions() 
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId="comments"
+                    }))
+ {
+     @Html.Hidden("tagKey", Model.TagKey)
+     <div class="contols">
+       @Html.TextArea("commentText", new { rows = 5, style = "width:370px"})
+     </div>
+     <input type="submit" class="btn" value="Отправить" />
+ }

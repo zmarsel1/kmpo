@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" type="text/css" media="all"/>
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" media="all"/>
+    @Html.Assets().Styles.Render()
+    <script src="@Url.Content("~/Content/js/jquery-1.8.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.min.js")" type="text/javascript"></script>
+    @Html.Assets().Scripts.Render()
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+          <div class="navbar" style="margin-bottom:5px;">
+            <div class="navbar-inner">
+              <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="@Url.Action("Index", "Home")">АСУ ЭП</a>
+                <div class="nav-collapse">
+                  <ul class="nav">
+                    <li class="divider-vertical"></li>
+                   @* @Html.MenuLink("Главная", "Index", "Home")*@
+                    @Html.MenuLink("Мониторинг", "Index", "Monitoring")
+                   @* @Html.MenuLink("Журнал событий", "Note", "Monitoring")*@
+                    @Html.MenuLink("Планирование", "Index", "Plan")
+                    @Html.MenuLink("Прогнозы", "Forecast", "Plan")
+                   @* @Html.MenuLink("Отчёты","Index","Report")*@
+                    @Html.MenuLink("Справка", "Help", "Home")
+                    @Html.MenuLink("О Программе", "About", "Home")
+                  </ul>
+                  <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+                    <li>
+                        <a href="#"><i class="icon-user"></i> <strong>@User.Identity.Name</strong></a>
+                    </li>
+                  </ul>
+                </div><!-- /.nav-collapse -->
+              </div>
+            </div><!-- /navbar-inner -->
+          </div>
+        </div><!-- /header -->
+        <div id="main">
+            @RenderBody()
+        </div>
+        <div id="footer"> Сделано в 2012 году.
+        </div>
+    </div>
+</body>
+</html>

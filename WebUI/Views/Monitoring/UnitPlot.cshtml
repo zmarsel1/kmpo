@@ -1,0 +1,28 @@
+﻿@model DAL.Entities.Group
+
+@{
+    //Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.selection.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.time.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.orderBars.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/drawGraphic.js"));
+    
+    var placeholder = "placeholder-" + Model.GroupID;
+    var legend = "legend-" + Model.GroupID;
+    var indicator = "indicator-" + Model.GroupID;
+    var yaxis = Model.Tags.First().Param.Measure.Trim();
+
+    }
+
+  <div class="plotheader">
+    <div class="header"> <h5> @Html.ActionLink(Model.Name, "Index", new { groupID = Model.GroupID }, new { style = "color:inherit;"}) </h5></div>
+    <div class="warning" id="@indicator"> <h5> ! </h5> </div>
+  </div>
+  <div id="@placeholder" class="plot"></div>
+  <div id="@legend" class="legend"></div>
+  
+<script type="text/javascript">
+    $(document).ready( function(){
+        $.ajaxSetup ({ cache:false });
+        drawGraphic("@Url.Action("GetHourData")", "@Url.Action("IsWarning")", @Model.GroupID, "Время, час", "@yaxis");
+    });
+</script>

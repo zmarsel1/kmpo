@@ -1,0 +1,35 @@
+﻿@model Nullable<DateTime>
+@{
+    Html.Assets().Styles.Add(Url.Content("~/Content/themes/base/jquery.ui.all.css"));
+
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery-ui-1.8.11.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/ui.datepicker-ru.js"));
+    
+    if (Model.HasValue)
+    {
+        @Html.TextBox("", String.Format("{0:dd.MM.yyyy}", Model.Value), new { @class = "input-small" })
+    }
+    else
+    {
+        @Html.TextBox("", String.Format("{0:dd.MM.yyyy}", DateTime.Now), new { @class = "input-small" })
+    }
+
+    string name = ViewData.TemplateInfo.HtmlFieldPrefix;
+    string id = name.Replace(".", "_");
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#@id").datepicker
+            ({
+                dateFormat: 'dd.mm.yy',
+                showStatus: true,
+                showWeeks: true,
+                highlightWeek: true,
+                numberOfMonths: 1,
+                showAnim: "scale",
+                showOptions: {
+                    origin: ["top", "left"]
+                }
+            });
+    });
+</script>

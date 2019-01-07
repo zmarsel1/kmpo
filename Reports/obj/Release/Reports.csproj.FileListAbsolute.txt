@@ -1,0 +1,16 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\Reports.dll.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\Reports.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\Reports.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.csprojResolveAssemblyReference.cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.PlanFact.resources
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.PrintPlan.resources
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.csproj.GenerateResource.Cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.PrintForecast.resources
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\TagDBContext.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\TagDBContext.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.PlanFactPlot.resources
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\bin\Release\ru\Reports.resources.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\Reports.PlanFactPlot.ru.resources
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Reports\obj\Release\ru\Reports.resources.dll

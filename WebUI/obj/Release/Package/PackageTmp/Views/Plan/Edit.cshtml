@@ -1,0 +1,49 @@
+﻿@model WebUI.Models.Document
+@{
+    ViewBag.Title = "Редактирование";
+    }
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div class="content">
+    <div class="row">
+      <div class ="span1"></div>
+      <div class="span5">
+          <h2>Заявка на @ViewBag.DateTime.ToShortDateString()</h2>
+          <h5>@ViewBag.GroupName</h5>
+          @using (Html.BeginForm())
+          {
+              @Html.HiddenFor(m => m.GroupID)
+              @Html.HiddenFor(m => m.Date)
+              <table>
+              <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Значение</th>
+                </tr>
+              </thead>
+              <tbody>
+              @for (int i = 0; i < Model.Entities.Count(); i++)
+              {                
+                  @Html.HiddenFor(m => m.Entities[i].DateTime)
+                  @Html.HiddenFor(m => m.Entities[i].TagKey)
+                  @Html.HiddenFor(m => m.Entities[i].TagID)
+                    <tr>
+                        <td>
+                        @Model.Entities[i].DateTime.AddHours(-1).ToShortTimeString() - @Model.Entities[i].DateTime.ToShortTimeString()
+                        </td>
+                        <td>
+                        @Html.TextBoxFor(m => m.Entities[i].Value, new { style = "text-align:right; margin-bottom:0px;" })
+                        @Html.ValidationMessageFor(m => m.Entities[i].Value)
+                        </td>
+                    </tr>
+              }
+                </tbody>
+              </table>
+              <input type="submit" class="btn" value="Сохранить" />
+          }
+      </div>
+  </div>
+@Html.ActionLink("Вернутья", "Index") 
+</div>

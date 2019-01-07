@@ -1,0 +1,8 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Release\DAL.dll.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Release\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Release\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Release\EntityFramework.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Release\EntityFramework.xml
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Release\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Release\DAL.pdb

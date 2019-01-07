@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using DAL.Abstract;
+using DAL.Concrete;
+using System.Collections;
+using WebUI.Models;
+using DAL.Entities;
+
+namespace WebUI.Controllers
+{
+    public class MonitoringController : Controller
+    {
+        IRepository repository;
+
+        public MonitoringController(IRepository repository)
+        {
+            this.repository = repository;
+        }
+        
+        private long ToJavascriptTimestamp(DateTime input)
+        {
+            long span = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
+            return (input.ToUniversalTime().Ticks - span) / 10000;
+        }
+        
+        public JsonResult GetHourData(int groupID, bool flat = true)
+        {
+            var group = repository.GetGroups().Where(g => g.GroupID == groupID).First();
+            if (flat)
+            {
+                var dict = new Dictionary<string, IEnumerable<object>>();
+
+                foreach (var tag in group.Tags)
+                {
+                    var values = repository.GetTagValue(tag.TagName, DateTime.Today.Subtract(new TimeSpan(1,0,0)), DateTime.Today.AddDays(1)).ToList();
+                    dict[tag.Description] = values.Select(r => new ArrayList() { ToJavascriptTimestamp(r.DateTime), r.Value }).ToList();
+                }
+
+                return Json(dict, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var normtag = group.Tags.Where(t => t.TagName.Trim().EndsWith("_PLAN")).FirstOrDefault();
+                var facttag = group.Tags.Where(t => t.TagName.Trim().EndsWith("_FACT")).FirstOrDefault();
+
+                var optimal_data = repository.GetTagValue(normtag.TagName, DateTime.Today, DateTime.Today.AddDays(1)).ToList();
+                var fact_data = repository.GetTagValue(facttag.TagName, DateTime.Today, DateTime.Today.AddDays(1)).ToList();
+
+                var data = from f in fact_data.AsQueryable()
+                           join o in optimal_data.AsQueryable() on f.DateTime equals o.DateTime
+                           into c
+                           from p in c.DefaultIfEmpty(new TagValue())
+                           select new OptimalFactRecord { TagKey = f.TagKey, Date = f.DateTime, OptimalValue = p.Value, FactValue = f.Value };
+                return Json(data.ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult IsWarning(int groupID)
+        {
+            var group = repository.GetGroups().Where(g => g.GroupID == groupID).First();
+            var taglimit = group.Tags.FirstOrDefault(t => t.TagName.Trim().EndsWith("_LIMIT"));
+            var tagfact = group.Tags.FirstOrDefault(t => t.TagName.Trim().EndsWith("_FACT"));
+            if (taglimit != null && tagfact != null)
+            {
+                var limit = repository.GetTagValue(taglimit.TagName, DateTime.Today.Subtract(new TimeSpan(1, 0, 0)), DateTime.Today.AddDays(1)).LastOrDefault();
+                var fact = repository.GetTagValue(tagfact.TagName, DateTime.Today.Subtract(new TimeSpan(1, 0, 0)), DateTime.Today.AddDays(1)).LastOrDefault();
+                if(limit !=null && fact != null)
+                {
+                    bool warning = 100 * (fact.Value - limit.Value) / fact.Value > 3; // больше 3%
+                    return Json(warning, JsonRequestBehavior.AllowGet); ;
+                } 
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Index(int groupID = 0)
+        {    
+            if (groupID == 0)
+                groupID = repository.GetGroups().Where(g => g.ParentID == null).First().GroupID;
+
+            if (repository.GetGroups().Where(g => g.ParentID == groupID).Count() == 0)
+            {
+                var model = new MonitoringSingleViewModel();
+                model.Units = repository.GetGroups().Where(g => g.ParentID == null).ToArray();
+                model.Group = repository.GetGroups().Where(g => g.GroupID == groupID).First();
+                return View("Single", model);
+            }
+            else
+            {
+                var model = new MonitoringViewModel();
+                model.Units = repository.GetGroups().Where(g => g.ParentID == null).ToArray();
+                model.Groups = repository.GetGroups().Where(g => g.ParentID == groupID).ToArray();
+                return View(model);
+            }
+        }
+
+        /// <summary>
+        /// Принятые меры
+        /// </summary>
+        public ActionResult Note(int groupID = 0, DateTime? date = null)
+        {
+            var search = new NoteViewModel();
+            search.Groups = repository.GetGroups().Where(g => g.ParentID != null).ToArray();
+
+            search.Group = search.Groups.FirstOrDefault(g => g.GroupID == groupID) ?? search.Groups.First();
+            search.Date = date ?? DateTime.Today.AddDays(-1);
+
+            var normtag = search.Group.Tags.Where(t => t.TagName.Trim().EndsWith("_PLAN")).FirstOrDefault();
+            var facttag = search.Group.Tags.Where(t => t.TagName.Trim().EndsWith("_FACT")).FirstOrDefault();
+
+            var optimal_data = repository.GetTagValue(normtag.TagName, search.Date, search.Date.AddDays(1)).ToList();
+            var fact_data = repository.GetTagValue(facttag.TagName, search.Date, search.Date.AddDays(1)).ToList();
+
+            //var data = from f in fact_data.AsQueryable()
+            //           join o in optimal_data.AsQueryable() on f.DateTime equals o.DateTime
+            //           select new OptimalFactRecord { TagKey = o.TagKey, Date = o.DateTime, OptimalValue = o.Value, FactValue = f.Value };
+
+            var data = from f in fact_data.AsQueryable()
+                       join o in optimal_data.AsQueryable() on f.DateTime equals o.DateTime
+                       into c
+                       from p in c.DefaultIfEmpty(new TagValue())
+                       select new OptimalFactRecord { TagKey = f.TagKey, Date = f.DateTime, OptimalValue = p.Value, FactValue = f.Value };
+            search.Data = data.ToArray();
+            return View(search);
+        }
+
+        public ActionResult Comments(int tagKey)
+        {
+            var comments = new CommentsViewModel();
+            comments.TagKey = tagKey;
+            comments.Comments = repository.GetComments(tagKey).ToArray();
+            
+            return PartialView(comments);
+        }
+        [HttpPost]
+        public ActionResult AddComment(int tagKey, string commentText)
+        {
+            repository.AddComment(tagKey, User.Identity.Name, commentText);
+            var comments = repository.GetComments(tagKey).ToArray();
+            return PartialView("CommentsPartial", comments);;
+        }
+        /// <summary>
+        /// Ввод лимитов и норм
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Limits()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Limits(int model)
+        {
+            return View();
+        }
+    }
+}

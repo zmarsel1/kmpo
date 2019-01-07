@@ -1,0 +1,46 @@
+﻿@model WebUI.Models.MonitoringViewModel
+@{
+    ViewBag.Title = "Мониторинг";
+    Html.Assets().Styles.Add(Url.Content("~/Content/plot.css"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/excanvas.min.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery-ui-1.8.11.min.js"));
+    Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.js"));
+    //Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.stack.min.js"));
+    //Html.Assets().Scripts.Add(Url.Content("~/Content/js/jquery.flot.fillbetween.min.js"));
+}
+<div class="submenu">
+@{
+    foreach(var u in Model.Units)
+    {
+         <a href="@Url.Action("Index", "Monitoring", new { groupID = u.GroupID})" class="btn">
+         <i class="icon-signal"></i> <strong>@u.Name</strong></a>
+    }
+ }
+ </div>
+ <div class="content">
+    <div>
+    @{
+        var index = 0;
+        var count = 0;
+        string span = "span" + ((int)(12 / Model.ColumnsCount)).ToString();
+        foreach (var group in Model.Groups)
+        {
+            count++;
+            if (index % @Model.ColumnsCount == 0)
+            {     
+                @:<div class="row-fluid">
+            }
+        
+            @:<div class="@span">
+            Html.RenderPartial("UnitPlot", group);
+            @:</div>
+        
+            if (count != 0 && count % @Model.ColumnsCount == 0)
+            {
+                @:</div>
+            }
+            index++;
+        } 
+     } 
+    </div>
+</div>

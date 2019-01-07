@@ -1,0 +1,10 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\Test.exe.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\Test.exe
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\Test.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\EntityFramework.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\bin\Release\EntityFramework.xml
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\obj\x86\Release\Test.exe
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\obj\x86\Release\Test.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Test\obj\x86\Release\Test.csprojResolveAssemblyReference.cache

@@ -1,0 +1,10 @@
+28.01.13 14:32:15 : Последовательность не содержит элементов
+System.InvalidOperationException: Последовательность не содержит элементов
+   в System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   в System.Data.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__0[TResult](IEnumerable`1 sequence)
+   в System.Data.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   в System.Data.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[S](Expression expression)
+   в System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   в System.Linq.Queryable.First[TSource](IQueryable`1 source)
+   в Forecast.Program.ExportToDB(String tag_name, Dictionary`2 solution, TagDbContext context) в C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\Forecast\Program.cs:строка 86
+   в Forecast.Program.ForecastAndExport_v2(String forecast_tag, String data_tag, Int32 forecastPerspective) в C:\Users\marsel\Documen

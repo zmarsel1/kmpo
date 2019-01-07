@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TagDBModelStoreContainer" CdmEntityContainer="TagDBEntities">
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="TagDBModel.Comment">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Posted" ColumnName="Posted" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="TagKey" ColumnName="TagKey" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="TagDBModel.Group">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Params">
+      <EntityTypeMapping TypeName="TagDBModel.Param">
+        <MappingFragment StoreEntitySet="Params">
+          <ScalarProperty Name="ParamTag" ColumnName="ParamTag" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Measure" ColumnName="Measure" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="TagDBModel.Tag">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="TagID" ColumnName="TagID" />
+          <ScalarProperty Name="TagName" ColumnName="TagName" />
+          <ScalarProperty Name="ParamTag" ColumnName="ParamTag" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TagValues">
+      <EntityTypeMapping TypeName="TagDBModel.TagValue">
+        <MappingFragment StoreEntitySet="TagValues">
+          <ScalarProperty Name="TagKey" ColumnName="TagKey" />
+          <ScalarProperty Name="TagID" ColumnName="TagID" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TagGroups" TypeName="TagDBModel.TagGroups" StoreEntitySet="TagGroups">
+      <EndProperty Name="Groups">
+        <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+      </EndProperty>
+      <EndProperty Name="Tags">
+        <ScalarProperty Name="TagID" ColumnName="TagID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

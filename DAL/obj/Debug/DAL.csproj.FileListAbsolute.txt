@@ -1,0 +1,16 @@
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\bin\Debug\DAL.dll.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\bin\Debug\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\bin\Debug\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\bin\Debug\EntityFramework.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\bin\Debug\EntityFramework.xml
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\obj\Debug\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\Etilen\DAL\obj\Debug\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Debug\DAL.dll.config
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Debug\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Debug\DAL.pdb
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Debug\EntityFramework.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\bin\Debug\EntityFramework.xml
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Debug\DAL.dll
+C:\Users\marsel\Documents\Visual Studio 2010\Projects\КМПО\DAL\obj\Debug\DAL.pdb

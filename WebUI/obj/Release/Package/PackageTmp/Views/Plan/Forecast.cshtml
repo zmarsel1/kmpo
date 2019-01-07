@@ -1,0 +1,53 @@
+﻿@model WebUI.Models.PlanViewModel
+@{
+    ViewBag.Title = "Прогнозы";  
+    }
+
+<div class="content">
+<h2>Прогнозы</h2>
+
+    @using (Html.BeginForm("Forecast", "Plan", FormMethod.Get, new { @class = "form-search" }))
+    {
+        <label>Передел:</label>
+          <div class="input-prepend">
+            <span class="add-on"><i class="icon-cog"></i></span>
+            @Html.DropDownList("GroupID", new SelectList(ViewBag.Groups, "GroupID", "Name", Model.GroupID), new { @class = "input-medium", style = "width:375px;" })
+          </div>
+        <label>C:</label>
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          @Html.Editor("Start")
+        </div>
+        <label>До:</label>
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          @Html.Editor("End")
+        </div>
+        
+        <input type="submit" class="btn btn-primary" value="Поиск" />
+    }
+
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+            <th></th>
+            <th>Сумма</th>
+            <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.Documents)
+        {
+            <tr>
+                <td>Заявка на @item.Date.ToShortDateString(): @ViewBag.GroupName </td>
+                <td>@item.Value</td>
+                <td>
+                @*@Html.ActionLink("Создать Заявку", "Create", new { id = @item.GroupID, date = @item.Date.ToLongDateString()}, new { @class ="btn btn-small" })*@
+                @Html.ActionLink("Просмотр", "Print", new { id = @item.GroupID, date = @item.Date.ToShortDateString(), report = "PrintForecast" }, new { @class = "btn btn-small" })
+                </td>
+            </tr>
+        }
+      </tbody>
+    </table>
+    @*@Html.Partial("PrintForecast", Model)*@
+</div>
